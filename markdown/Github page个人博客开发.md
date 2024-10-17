@@ -26,7 +26,7 @@
 
 ### 二、UI设计
 
-#### 1、个人主页
+#### 1、主页
 
 ![mianPage](/Users/wanghao40/Desktop/学习记录-思维导图/github-project/thinkingisMagic.github.io/markdown/mian_page.png)
 
@@ -54,7 +54,63 @@
 
 
 
-2、页面拆解
+2、view层级设计（react）
+
+（1）主页page 
+
+HomePageView
+
+-rootContainer 根容器
+
+  --backGroundContainer 背景容器
+
+  --topViewContainer 顶部容器
+
+   ---leftViewContainer 左对齐容器
+
+​     ----itemView
+
+   ---rightViewContainer 右对齐容器
+
+​     ----itemView
+
+  --middleViewContainer 中间容器
+
+​    ---view1Container
+
+​    ---view2Container
+
+​    ...
+
+  --bottomViewContainer 底部容器（待拓展）
+
+
+
+（2）文档页
+
+DocsPageView
+
+-rootContainer 根容器
+
+  --topViewContainer 顶部容器
+
+   ---leftViewContainer 左对齐容器
+
+​     ----itemView
+
+   ---rightViewContainer 右对齐容器
+
+​     ----itemView（搜索view）
+
+  --mainViewContainer 内容区容器
+
+​    ---directoryViewContainer 目录容器
+
+​      ----listView 可滚动列表
+
+​    ---contentViewContainer 内容容器
+
+​      ----MarkDownView 显示markdown
 
 
 
