@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import Sidebar from '../../componet/Sidebar';
 import MarkdownDisplay from '../../componet/MarkdownDisplay';
 import Directory from '../../componet/Directory';
 import { FetchedMarkdownFiles } from '../../model/MarkdownModel';
+import useSearch from '../../util/useSearch';
 
-const styles = {
-  container:{ 
+const styles: { [key: string]: CSSProperties } = {
+  rootContainer:{
     display: 'flex',
-    borderTop: '2px solid #FFCCCC', 
+    flexDirection: 'column',
   },
-  sidebarOrigin: { 
-    width: '20vw', 
-    borderRight: '1px solid #ccc', 
-    padding: '10px',
+  docsContainer:{ 
+    display: 'flex',
+    // borderTop: '2px solid #FFCCCC', 
   },
   sidebar:{ 
     width: '250px', 
     padding: '15px', 
     backgroundColor: '#ffffff',
     height: '100vh',
-    borderRight: '2px solid #FFCCCC', 
+    borderRight: '1px solid #FFCCCC', 
   },
   /**
    * question 如何让markdown内容滑动的时候，左侧目录不动？ 解：markdown view添加 overflowY: 'scroll', 
@@ -33,13 +33,55 @@ const styles = {
   markdownDisplayImage: { 
     maxWidth: '100%' 
   },
+  topViewContainer:{
+    width: "100%",
+    height: "10vh",
+    background: "linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.5))",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    display: 'flex'
+  },
+  topViewLeftContainer:{
+    width: "50vw",
+  },
+  topViewRightContainer:{
+    width: "50vw",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: '2px solid #000000', 
+  },
+  searchBarContainer:{
+    width: "20vw",
+    border: '2px solid #000000', 
+  },
+  searchInput: {
+    padding: '8px',
+    width: '100%',
+    boxSizing: 'border-box',
+  },
+  resultsList: {
+    listStyleType: 'none',
+    padding: 0,
+  },
+  resultItem: {
+    cursor: 'pointer',
+    padding: '5px',
+  }
 };
 
 //TODO 待开发 自动读取markdown文件夹下的md
 const DocsPageView = () => {
+  // 所有markdown文件
   const [files, setFiles] = useState<string[]>([]);
+  // 当前markdown文件
   const [currentFile, setCurrentFile] = useState<string | null>(null);
+  // markdown内容
   const [markdownText, setMarkdownText] = useState<string>('');
+  // 搜索
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     // 模拟读取 Markdown 文件列表
@@ -72,11 +114,43 @@ const DocsPageView = () => {
     setCurrentFile(file);
   };
 
+  const handleResultSelect = (file: string) => {
+    setCurrentFile(file);
+    setSearchQuery('');
+  };
+
+  const searchResults = useSearch(files, searchQuery);
+
   return (
-    <div style={styles.container}>
-      <Sidebar files={files} onSelect={handleFileSelect} style={styles.sidebar}/>
-      <MarkdownDisplay markdownText={markdownText} style={styles.markdownDisplay} imgStyle={styles.markdownDisplayImage}/>
-      <Directory markdownText={markdownText} />
+    <div style={styles.rootContainer}>
+      <div style={styles.topViewContainer}>
+        <div style={styles.topViewLeftContainer}>
+          {/* 待拓展 */}
+        </div>
+        <div style={styles.topViewRightContainer}>
+          <div style={styles.searchBarContainer}>
+            <input 
+              type="text" 
+              placeholder="搜索..." 
+              value={searchQuery} 
+              onChange={(e) => setSearchQuery(e.target.value)} 
+              style={styles.searchInput}
+            />
+            <ul style={styles.resultsList}>
+              {searchResults.map((file) => (
+                <li key={file} onClick={() => handleResultSelect(file)} style={styles.resultItem}>
+                  {file}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div style={styles.docsContainer}>
+        <Sidebar files={files} onSelect={handleFileSelect} style={styles.sidebar}/>
+        <MarkdownDisplay markdownText={markdownText} style={styles.markdownDisplay} imgStyle={styles.markdownDisplayImage}/>
+        <Directory markdownText={markdownText} />
+      </div>
     </div>
   );
 };
