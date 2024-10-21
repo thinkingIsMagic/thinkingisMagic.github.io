@@ -28,13 +28,13 @@
 
 #### 1、主页
 
-![mianPage](./resource/mian_page.png)
+![mianPage](resource/mian_page.png)
 
 
 
 #### 2、文档页
 
-![docs_page](./resource/docs_page.png)
+![docs_page](resource/docs_page.png)
 
 
 
@@ -265,17 +265,27 @@ multi-page-demo/
 
 这样你就完成了一个简单的多页面 React 应用！你可以根据需要进一步扩展和自定义这个项目。
 
+
 #### 4、核心功能
 ##### （1）Markdown显示
 * markdown显示
+（1）支持图片显示
+（2）code特殊显示 todo
 
 * 左侧文件目录
+（1）鼠标停留回调和离开回调设置选中/非选中样式
 
 * 右侧悬浮markdown内容目录
+（1）悬浮显示当前markdown内容
+（2）设置最大高度和最大宽度
 
 
 ##### （2）搜索功能
 
 
-
 ### 四、上线以及推广
+
+
+### -1 问题记录
+
+代码注释中标注question
