@@ -2,9 +2,40 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from '../../componet/Sidebar';
 import MarkdownDisplay from '../../componet/MarkdownDisplay';
 import Directory from '../../componet/Directory';
+import { FetchedMarkdownFiles } from '../../model/MarkdownModel';
+
+const styles = {
+  container:{ 
+    display: 'flex',
+    borderTop: '2px solid #FFCCCC', 
+  },
+  sidebarOrigin: { 
+    width: '20vw', 
+    borderRight: '1px solid #ccc', 
+    padding: '10px',
+  },
+  sidebar:{ 
+    width: '250px', 
+    padding: '15px', 
+    backgroundColor: '#ffffff',
+    height: '100vh',
+    borderRight: '2px solid #FFCCCC', 
+  },
+  /**
+   * question 如何让markdown内容滑动的时候，左侧目录不动？ 解：markdown view添加 overflowY: 'scroll', 
+   */
+  markdownDisplay: {
+      width: '80vw',
+      padding: '20px',
+      overflowY: 'scroll', 
+      height: '100vh',
+  },
+  markdownDisplayImage: { 
+    maxWidth: '100%' 
+  },
+};
 
 //TODO 待开发 自动读取markdown文件夹下的md
-//TODO 图片显示异常
 const DocsPageView = () => {
   const [files, setFiles] = useState<string[]>([]);
   const [currentFile, setCurrentFile] = useState<string | null>(null);
@@ -12,8 +43,7 @@ const DocsPageView = () => {
 
   useEffect(() => {
     // 模拟读取 Markdown 文件列表
-    const fetchedFiles = ['file1.md', 'file2.md','github-page-coding-record.md'];
-    setFiles(fetchedFiles);
+    setFiles(FetchedMarkdownFiles);
   }, []);
 
   useEffect(() => {
@@ -43,10 +73,10 @@ const DocsPageView = () => {
   };
 
   return (
-    <div style={{ display: 'flex' }}>
-      <Sidebar files={files} onSelect={handleFileSelect} />
-      <MarkdownDisplay markdownText={markdownText} />
-      <Directory currentFile={currentFile} />
+    <div style={styles.container}>
+      <Sidebar files={files} onSelect={handleFileSelect} style={styles.sidebar}/>
+      <MarkdownDisplay markdownText={markdownText} style={styles.markdownDisplay} imgStyle={styles.markdownDisplayImage}/>
+      <Directory markdownText={markdownText} />
     </div>
   );
 };
